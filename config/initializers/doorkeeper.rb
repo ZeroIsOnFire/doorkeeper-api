@@ -13,6 +13,15 @@ Doorkeeper.configure do
     #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
   end
 
+  # In this flow, a token is requested in exchange for the resource owner credentials
+  # (username and password)
+  resource_owner_from_credentials do |routes|
+    user = User.find_for_database_authentication(email: params[:email])
+    if user && user.valid_for_authentication? { user.valid_password?(params[:password]) }
+      user
+    end
+  end
+
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
   # file then you need to declare this block in order to restrict access to the web interface for
   # adding oauth authorized applications. In other case it will return 403 Forbidden response
@@ -76,7 +85,7 @@ Doorkeeper.configure do
   # Access token expiration time (default: 2 hours).
   # If you want to disable expiration, set this to `nil`.
   #
-  # access_token_expires_in 2.hours
+  access_token_expires_in 12.hours
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. In case the block returns `nil` value Doorkeeper fallbacks to
@@ -328,6 +337,7 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
+  grant_flows %w(password)
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must
