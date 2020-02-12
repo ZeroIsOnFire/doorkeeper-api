@@ -1,7 +1,9 @@
-class ApplicationController < ActionController::API
+class Api::V1::ApplicationController < ActionController::API
   # Devise code
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  # Doorkeeper code
+  before_action :doorkeeper_authorize!
   respond_to :json
 
   protected

@@ -16,7 +16,7 @@ Doorkeeper.configure do
   # In this flow, a token is requested in exchange for the resource owner credentials
   # (username and password)
   resource_owner_from_credentials do |routes|
-    user = User.find_for_database_authentication(email: params[:email])
+    user = User.find_for_database_authentication(email: params[:username])
     if user && user.valid_for_authentication? { user.valid_password?(params[:password]) }
       user
     end
@@ -337,7 +337,7 @@ Doorkeeper.configure do
   #   http://tools.ietf.org/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
-  grant_flows %w(password)
+  grant_flows %w[password]
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must
@@ -402,6 +402,8 @@ Doorkeeper.configure do
   # skip_authorization do |resource_owner, client|
   #   client.superapp? or resource_owner.admin?
   # end
+
+  # skip_authorization { true }
 
   # Configure custom constraints for the Token Introspection request.
   # By default this configuration option allows to introspect a token by another
