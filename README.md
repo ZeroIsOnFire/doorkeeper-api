@@ -1,24 +1,13 @@
-# README
+# Instalação
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* Rodar bundle install
 
-Things you may want to cover:
+* Rodar rails db:create e rails db:migrate
 
-* Ruby version
+* Iniciar servidor com rails s
 
-* System dependencies
+# Endpoints
 
-* Configuration
+* oauth/token - Endpoint de autenticação do doorkeeper
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* api/characters - Endpoint de exibição do cadastro de personagens, para testes
